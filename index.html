@@ -3,20 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>CutSheet — ID Card Print Layout</title>
+<title>CutSheet — ID Card &amp; Passport Photo Printer</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHJlY3QgeD0iMyIgeT0iOSIgd2lkdGg9IjQyIiBoZWlnaHQ9IjMwIiByeD0iNiIgZmlsbD0iJTIzZDY1NDJjIi8+PGxpbmUgeDE9IjI0IiB5MT0iOSIgeDI9IjI0IiB5Mj0iMzkiIHN0cm9rZT0iJTIzZmZmIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PGNpcmNsZSBjeD0iMTMiIGN5PSIxOSIgcj0iMy40IiBmaWxsPSIlMjNmZmYiIG9wYWNpdHk9Ii45NSIvPjxyZWN0IHg9IjkiIHk9IjI3IiB3aWR0aD0iOSIgaGVpZ2h0PSIyLjQiIHJ4PSIxLjIiIGZpbGw9IiUyM2ZmZiIgb3BhY2l0eT0iLjg1Ii8+PHJlY3QgeD0iOSIgeT0iMzEuNCIgd2lkdGg9IjYiIGhlaWdodD0iMi4yIiByeD0iMS4xIiBmaWxsPSIlMjNmZmYiIG9wYWNpdHk9Ii42Ii8+PC9zdmc+">
 <style id="pageSizeStyle">@page { size: 210mm 297mm; margin: 0; }</style>
 <style>
   :root{
-    --mat:#33402c;
-    --mat-deep:#2a3424;
-    --ink:#1f241a;
-    --accent:#d6542c;
-    --accent-soft:#f0a988;
-    --panel:#1d2117;
-    --panel-2:#262b1d;
-    --panel-text:#ece9dd;
-    --muted:#a3a690;
-    --line:#3a4030;
+    --mat:#33402c; --mat-deep:#2a3424; --ink:#1f241a;
+    --accent:#d6542c; --accent-soft:#f0a988;
+    --panel:#1d2117; --panel-2:#262b1d; --panel-text:#ece9dd; --muted:#a3a690; --line:#3a4030;
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Courier New", monospace;
   }
@@ -26,20 +20,23 @@
   :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   @media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important;} }
 
+  @keyframes popIn{ from{transform:scale(.35) rotate(-18deg);opacity:0;} to{transform:scale(1) rotate(0deg);opacity:1;} }
+  @keyframes fadeUp{ from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+  @keyframes slideInLeft{ from{opacity:0;transform:translateX(-16px);} to{opacity:1;transform:translateX(0);} }
+  @keyframes sweepLine{ from{width:0;} to{width:100%;} }
+
   .app-shell{height:100vh;display:flex;flex-direction:column;}
 
   .topbar{
-    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
-    padding:14px 22px;background:var(--panel);color:var(--panel-text);
-    border-bottom:1px solid var(--line);
+    position:relative;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    padding:14px 22px;background:var(--panel);color:var(--panel-text);border-bottom:1px solid var(--line);
   }
+  .topbar::after{ content:'';position:absolute;left:0;bottom:-1px;height:2px;background:var(--accent);width:0;animation:sweepLine .7s ease .25s forwards; }
   .brand{display:flex;align-items:center;gap:12px;}
-  .brand-mark{
-    width:34px;height:34px;border-radius:6px;background:var(--accent);
-    display:flex;align-items:center;justify-content:center;font-size:18px;color:#1d2117;flex-shrink:0;
-  }
-  .brand h1{font-size:15px;margin:0;letter-spacing:.02em;}
-  .brand p{font-size:11.5px;margin:2px 0 0;color:var(--muted);}
+  .brand-mark{width:36px;height:36px;flex-shrink:0;animation:popIn .55s cubic-bezier(.34,1.56,.64,1) both;}
+  .brand-mark svg{width:100%;height:100%;display:block;}
+  .brand h1{font-size:15px;margin:0;letter-spacing:.02em;animation:fadeUp .5s ease .15s both;}
+  .brand p{font-size:11.5px;margin:2px 0 0;color:var(--muted);animation:fadeUp .5s ease .22s both;}
 
   .btn{
     border:1px solid var(--line);background:var(--panel-2);color:var(--panel-text);
@@ -48,20 +45,13 @@
   }
   .btn:hover{background:#303625;}
   .btn:active{transform:translateY(1px);}
-  .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff;animation:fadeUp .45s ease .3s both;}
   .btn-primary:hover{background:#c14a26;}
-  .link-btn{
-    background:none;border:none;color:var(--accent-soft);font-size:12.5px;cursor:pointer;
-    padding:4px 0;text-decoration:underline;text-underline-offset:2px;
-  }
+  .link-btn{background:none;border:none;color:var(--accent-soft);font-size:12.5px;cursor:pointer;padding:4px 0;text-decoration:underline;text-underline-offset:2px;}
   .link-btn.danger{color:#e08a73;}
 
   .workspace{flex:1;display:flex;min-height:0;}
-
-  .sidebar{
-    width:310px;flex-shrink:0;background:var(--panel);color:var(--panel-text);
-    overflow-y:auto;padding:18px;border-right:1px solid var(--line);
-  }
+  .sidebar{width:320px;flex-shrink:0;background:var(--panel);color:var(--panel-text);overflow-y:auto;padding:18px;border-right:1px solid var(--line);animation:slideInLeft .4s ease .15s both;}
   .panel{margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--line);}
   .panel:last-of-type{border-bottom:none;}
   .panel h2{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 10px;font-weight:700;}
@@ -76,14 +66,18 @@
   .checkbox input{width:auto;margin:0;}
   .hint{font-size:11.5px;color:var(--muted);margin:4px 0 8px;line-height:1.5;}
 
+  .mode-tabs{display:flex;gap:6px;margin-bottom:4px;}
+  .mode-tab{flex:1;padding:9px 4px;font-size:12px;border:1px solid var(--line);background:var(--panel-2);color:var(--muted);border-radius:5px;cursor:pointer;min-height:40px;}
+  .mode-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
   .slot-tabs{display:flex;gap:6px;margin-bottom:12px;}
   .slot-tab{flex:1;padding:9px 0;font-size:12.5px;border:1px solid var(--line);background:var(--panel-2);color:var(--muted);border-radius:5px;cursor:pointer;min-height:38px;}
   .slot-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 
   .drop-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
   .dropzone{
-    border:1.5px dashed var(--line);border-radius:8px;padding:14px 8px;text-align:center;
-    cursor:pointer;font-size:12px;color:var(--muted);transition:border-color .15s,background .15s;
+    border:1.5px dashed var(--line);border-radius:8px;padding:14px 8px;text-align:center;cursor:pointer;
+    font-size:12px;color:var(--muted);transition:border-color .15s,background .15s;
     min-height:64px;display:flex;align-items:center;justify-content:center;
   }
   .dropzone p{margin:0;line-height:1.5;}
@@ -94,7 +88,25 @@
   .pdf-pager button{background:var(--panel-2);border:1px solid var(--line);color:var(--panel-text);border-radius:5px;width:30px;height:30px;cursor:pointer;}
   .hidden{display:none !important;}
 
-  .canvas-area{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;}
+  /* crop editor */
+  .crop-frame{
+    position:relative;width:100%;overflow:hidden;border-radius:6px;border:1px solid var(--line);
+    background:#11140e;cursor:grab;touch-action:none;user-select:none;
+  }
+  .crop-frame.dragging{cursor:grabbing;}
+  .crop-frame img{width:100%;height:100%;display:block;}
+  .crop-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#7d7a68;font-size:11.5px;text-align:center;padding:10px;}
+  .crop-controls{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0 14px;}
+  .dpad{display:grid;grid-template-columns:32px 32px 32px;grid-template-rows:32px 32px 32px;gap:3px;}
+  .dpad button{background:var(--panel-2);border:1px solid var(--line);color:var(--panel-text);border-radius:5px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .dpad button:hover{background:#303625;}
+  .dpad .dpad-up{grid-column:2;grid-row:1;}
+  .dpad .dpad-left{grid-column:1;grid-row:2;}
+  .dpad .dpad-reset{grid-column:2;grid-row:2;color:var(--accent-soft);}
+  .dpad .dpad-right{grid-column:3;grid-row:2;}
+  .dpad .dpad-down{grid-column:2;grid-row:3;}
+
+  .canvas-area{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;animation:fadeUp .5s ease .2s both;}
   .mat{
     width:100%;min-height:100%;display:flex;align-items:center;justify-content:center;padding:48px;
     background-image:
@@ -103,29 +115,22 @@
   }
   .sheet-wrapper{position:relative;transform-origin:top left;}
   .ruler{position:absolute;background:transparent;}
-  .ruler-top{top:-6mm;left:0;height:5mm;width:100%;
-    background:repeating-linear-gradient(to right, var(--accent-soft) 0 1px, transparent 1px 10mm);}
-  .ruler-left{left:-6mm;top:0;width:5mm;height:100%;
-    background:repeating-linear-gradient(to bottom, var(--accent-soft) 0 1px, transparent 1px 10mm);}
+  .ruler-top{top:-6mm;left:0;height:5mm;width:100%;background:repeating-linear-gradient(to right, var(--accent-soft) 0 1px, transparent 1px 10mm);}
+  .ruler-left{left:-6mm;top:0;width:5mm;height:100%;background:repeating-linear-gradient(to bottom, var(--accent-soft) 0 1px, transparent 1px 10mm);}
 
   #sheet{position:relative;box-shadow:0 8px 30px rgba(0,0,0,.45);}
   .empty-state{display:flex;align-items:center;justify-content:center;min-height:60mm;color:#9a957f;font-size:13px;text-align:center;padding:20px;}
   .card-cell{position:relative;overflow:hidden;background:#eee;}
   .card-cell.cut{outline:1px dashed var(--accent);outline-offset:0;}
   .card-cell img{width:100%;height:100%;display:block;}
-  .card-placeholder{
-    width:100%;height:100%;display:flex;align-items:center;justify-content:center;
-    padding:6mm;text-align:center;color:#8b8775;background:#f5f2e8;font-size:11px;
-  }
+  .card-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:6mm;text-align:center;color:#8b8775;background:#f5f2e8;font-size:11px;}
 
-  /* print-only clone: lives directly under <body>, no flex / overflow / transform
-     ancestors, so the print engine can never clip or blank it out. */
   #printRoot{display:none;}
   #printSheet{background:#fff;}
 
   @media (max-width: 880px){
     .workspace{flex-direction:column;}
-    .sidebar{width:100%;max-height:50vh;border-right:none;border-bottom:1px solid var(--line);}
+    .sidebar{width:100%;max-height:54vh;border-right:none;border-bottom:1px solid var(--line);}
   }
   @media (max-width: 560px){
     .drop-grid, .row{grid-template-columns:1fr;}
@@ -133,8 +138,9 @@
     .topbar{padding:12px 14px;}
     .pdf-pager button{width:42px;height:42px;font-size:16px;}
     .panel input[type=number], .panel select{font-size:16px;padding:10px 8px;}
-    .slot-tab{min-height:42px;}
+    .slot-tab, .mode-tab{min-height:42px;}
     .btn{padding:11px 16px;}
+    .dpad{grid-template-columns:40px 40px 40px;grid-template-rows:40px 40px 40px;}
   }
 
   @media print{
@@ -150,10 +156,12 @@
 
   <header class="topbar no-print">
     <div class="brand">
-      <span class="brand-mark">▦</span>
+      <span class="brand-mark">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect x="3" y="9" width="42" height="30" rx="6" fill="#d6542c"/><line x1="24" y1="9" x2="24" y2="39" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 3"/><circle cx="13" cy="19" r="3.4" fill="#fff" opacity=".95"/><rect x="9" y="27" width="9" height="2.4" rx="1.2" fill="#fff" opacity=".85"/><rect x="9" y="31.4" width="6" height="2.2" rx="1.1" fill="#fff" opacity=".6"/></svg>
+      </span>
       <div>
         <h1>CutSheet</h1>
-        <p>Front left, back right — one print-ready sheet</p>
+        <p id="brandTag">Front left, back right — one print-ready sheet</p>
       </div>
     </div>
     <button id="printBtn" class="btn btn-primary">Print sheet</button>
@@ -163,8 +171,16 @@
     <aside class="sidebar no-print">
 
       <section class="panel">
-        <h2>1 · Front &amp; Back</h2>
-        <div class="drop-grid">
+        <h2>1 · What are you printing?</h2>
+        <div class="mode-tabs">
+          <button type="button" class="mode-tab active" data-mode="pair">ID card (front+back)</button>
+          <button type="button" class="mode-tab" data-mode="passport">Passport photo</button>
+        </div>
+      </section>
+
+      <section class="panel" id="imagesPanel">
+        <h2 id="imagesPanelTitle">2 · Front &amp; Back</h2>
+        <div class="drop-grid" id="pairDropGrid">
           <div id="frontDropzone" class="dropzone">
             <input type="file" id="frontFileInput" accept="image/png,image/jpeg,image/jpg,application/pdf" hidden>
             <p><span class="drop-title">Front side</span><span id="frontStatus">Drop JPG, PNG or PDF</span><br><button id="frontBrowseBtn" class="link-btn" type="button">browse front</button></p>
@@ -174,36 +190,51 @@
             <p><span class="drop-title">Back side</span><span id="backStatus">Drop JPG, PNG or PDF</span><br><button id="backBrowseBtn" class="link-btn" type="button">browse back</button></p>
           </div>
         </div>
+        <div id="photoDropWrap" class="hidden">
+          <div id="photoDropzone" class="dropzone">
+            <input type="file" id="photoFileInput" accept="image/png,image/jpeg,image/jpg,application/pdf" hidden>
+            <p><span class="drop-title">Photo</span><span id="photoStatus">Drop JPG, PNG or PDF</span><br><button id="photoBrowseBtn" class="link-btn" type="button">browse photo</button></p>
+          </div>
+        </div>
         <div id="pdfPager" class="pdf-pager hidden">
           <button id="pdfPrev" type="button">‹</button>
           <span id="pdfPageLabel">Page 1/1</span>
           <button id="pdfNext" type="button">›</button>
         </div>
-        <p class="hint">Tip: upload a 2-page PDF into Front — page 1 becomes front, page 2 becomes back automatically.</p>
+        <p class="hint" id="imagesHint">Tip: upload a 2-page PDF into Front — page 1 becomes front, page 2 becomes back automatically.</p>
       </section>
 
       <section class="panel">
-        <h2>2 · Card size</h2>
+        <h2 id="sizeSectionTitle">3 · Card size</h2>
         <label>Preset
-          <select id="cardPreset">
-            <option value="cr80">Standard ID / CR80 — 85.6 × 54 mm</option>
-            <option value="a7">Photo / Permit — 74 × 105 mm</option>
-            <option value="custom">Custom</option>
-          </select>
+          <select id="sizePreset"></select>
         </label>
         <div class="row">
-          <label>Width (mm)<input type="number" id="cardW" value="85.6" step="0.1" min="10"></label>
-          <label>Height (mm)<input type="number" id="cardH" value="54" step="0.1" min="10"></label>
+          <label>Width (mm)<input type="number" id="sizeW" step="0.1" min="10"></label>
+          <label>Height (mm)<input type="number" id="sizeH" step="0.1" min="10"></label>
         </div>
-        <button id="rotateBtn" class="link-btn" type="button">⤾ rotate card 90°</button>
+        <button id="rotateBtn" class="link-btn" type="button">⤾ rotate 90°</button>
       </section>
 
       <section class="panel">
-        <h2>3 · Fit &amp; position</h2>
-        <p class="hint">Front and back usually need different cropping — pick which one you're adjusting below.</p>
+        <h2>4 · Crop &amp; position</h2>
+        <p class="hint" id="cropHint">If your file is a full page with extra content (like a downloaded e-Aadhaar PDF), zoom in and drag until only the card shows.</p>
         <div class="slot-tabs" id="slotTabs">
           <button type="button" class="slot-tab active" data-slot="front">Front</button>
           <button type="button" class="slot-tab" data-slot="back">Back</button>
+        </div>
+        <div class="crop-frame" id="cropFrame">
+          <div class="crop-placeholder" id="cropPlaceholder">Upload an image first</div>
+          <img id="cropImg" class="hidden" draggable="false">
+        </div>
+        <div class="crop-controls">
+          <div class="dpad">
+            <button type="button" class="dpad-up" data-dir="up" aria-label="Move photo up">↑</button>
+            <button type="button" class="dpad-left" data-dir="left" aria-label="Move photo left">←</button>
+            <button type="button" class="dpad-reset" data-dir="reset" aria-label="Reset crop" title="Reset crop">⟲</button>
+            <button type="button" class="dpad-right" data-dir="right" aria-label="Move photo right">→</button>
+            <button type="button" class="dpad-down" data-dir="down" aria-label="Move photo down">↓</button>
+          </div>
         </div>
         <label>Fit mode
           <select id="fitMode">
@@ -213,16 +244,12 @@
           </select>
         </label>
         <label>Zoom <span id="zoomVal" class="hint" style="display:inline">100%</span>
-          <input type="range" id="zoom" min="100" max="300" value="100">
+          <input type="range" id="zoom" min="100" max="600" value="100">
         </label>
-        <div class="row">
-          <label>Pan X<input type="range" id="offX" min="0" max="100" value="50"></label>
-          <label>Pan Y<input type="range" id="offY" min="0" max="100" value="50"></label>
-        </div>
       </section>
 
       <section class="panel">
-        <h2>4 · Sheet &amp; layout</h2>
+        <h2>5 · Sheet &amp; layout</h2>
         <label>Paper
           <select id="sheetPreset">
             <option value="a4">A4 — 210 × 297 mm</option>
@@ -234,15 +261,15 @@
           <label>Gap (mm)<input type="number" id="gap" value="3" step="0.5" min="0"></label>
         </div>
         <label class="checkbox"><input type="checkbox" id="cutLines" checked> Show cut lines</label>
-        <label>Front+back pairs on this sheet
+        <label id="qtyLabel">Front+back pairs on this sheet
           <input type="number" id="qty" min="1" value="1">
         </label>
         <p class="hint" id="qtyMax"></p>
       </section>
 
       <section class="panel">
-        <h2>5 · Print calibration</h2>
-        <p class="hint">If the printed size comes out slightly off from the real card, fix it once here.</p>
+        <h2>6 · Print calibration</h2>
+        <p class="hint">If the printed size comes out slightly off from the real size, fix it once here.</p>
         <button id="calBtn" class="btn" type="button">Print test ruler</button>
         <div id="calApplyRow" class="row" style="display:none;margin-top:10px;">
           <label>Ruler measured (mm)<input type="number" id="calMeasured" value="100" step="0.1"></label>
@@ -277,35 +304,49 @@
 
   function makeSlot(){ return { src:null, fit:'cover', zoom:100, offX:50, offY:50 }; }
 
+  var SIZE_PRESETS = {
+    pair: [
+      { value:'cr80', label:'Standard ID / CR80 — 85.6 × 54 mm', w:85.6, h:54 },
+      { value:'a7',   label:'Photo / Permit — 74 × 105 mm', w:74, h:105 },
+      { value:'custom', label:'Custom' }
+    ],
+    passport: [
+      { value:'pp_3545', label:'Passport photo (India/UK/EU) — 35 × 45 mm', w:35, h:45 },
+      { value:'pp_us',   label:'US Visa / Passport — 51 × 51 mm (2×2 in)', w:51, h:51 },
+      { value:'custom', label:'Custom' }
+    ]
+  };
+
   var state = {
-    front: makeSlot(),
-    back: makeSlot(),
+    mode: 'pair',
+    front: makeSlot(), back: makeSlot(), photo: makeSlot(),
     activeSlot: 'front',
-    pdf: null, pdfPage: 1, pdfPageCount: 1, pdfSide: 'front',
-    cardW: 85.6, cardH: 54,
+    pair: { cardW: 85.6, cardH: 54, qty: 1 },
+    passport: { cardW: 35, cardH: 45, qty: null },
     sheetW: 210, sheetH: 297,
     margin: 5, gap: 3,
     cutLines: true,
-    qty: 1,
-    calibration: 100
+    calibration: 100,
+    pdf: null, pdfPage: 1, pdfPageCount: 1, pdfSlot: 'front'
   };
 
   function $(id){ return document.getElementById(id); }
   function mm(v){ return (v * state.calibration / 100).toFixed(3) + 'mm'; }
+  function curSize(){ return state[state.mode]; }
   function activeSlot(){ return state[state.activeSlot]; }
-  function escapeHtml(s){
-    return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; });
-  }
+  function clampPct(v){ return Math.max(0, Math.min(100, v)); }
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
-  function createCardCell(side){
-    var slot = state[side];
+  function createCardCell(slotKey){
+    var slot = state[slotKey];
+    var size = curSize();
     var cell = document.createElement('div');
-    cell.className = 'card-cell ' + side + (state.cutLines ? ' cut' : '');
-    cell.style.width = mm(state.cardW);
-    cell.style.height = mm(state.cardH);
+    cell.className = 'card-cell ' + slotKey + (state.cutLines ? ' cut' : '');
+    cell.style.width = mm(size.cardW);
+    cell.style.height = mm(size.cardH);
     if (slot.src){
       var img = document.createElement('img');
-      img.src = slot.src; img.alt = side + ' side';
+      img.src = slot.src; img.alt = slotKey;
       img.style.objectFit = (slot.fit === 'fill') ? 'fill' : slot.fit;
       img.style.objectPosition = slot.offX + '% ' + slot.offY + '%';
       img.style.transform = 'scale(' + (slot.zoom / 100) + ')';
@@ -313,51 +354,60 @@
     } else {
       var ph = document.createElement('div');
       ph.className = 'card-placeholder';
-      ph.textContent = (side === 'front' ? 'Front' : 'Back') + ' side image missing';
+      ph.textContent = (slotKey === 'photo' ? 'Photo' : (slotKey === 'front' ? 'Front' : 'Back')) + ' image missing';
       cell.appendChild(ph);
     }
     return cell;
   }
 
-  // Builds the printable content into targetEl. Used for BOTH the on-screen
-  // preview (#sheet) and the hidden print clone (#printSheet) so what you
-  // see is exactly what prints — front always left, back always right.
   function buildSheetContent(targetEl, includeEmptyState){
+    var size = curSize();
     targetEl.style.width = mm(state.sheetW);
     targetEl.style.height = mm(state.sheetH);
     targetEl.style.padding = mm(state.margin);
     targetEl.style.background = '#fff';
     targetEl.innerHTML = '';
 
-    var hasImage = !!state.front.src || !!state.back.src;
-    if (!hasImage){
-      if (includeEmptyState){
-        var es = document.createElement('div'); es.className = 'empty-state';
-        es.innerHTML = '<p>Upload front (and back) image or PDF to start</p>';
-        targetEl.appendChild(es);
-      }
-      return { ok:false, max:0 };
-    }
-
     var availW = state.sheetW - 2 * state.margin;
     var availH = state.sheetH - 2 * state.margin;
-    var rowW = state.cardW * 2 + state.gap;
-    var maxRows = Math.max(0, Math.floor((availH + state.gap) / (state.cardH + state.gap)));
 
-    if (rowW > availW + 0.001 || maxRows <= 0){
-      if (includeEmptyState){
-        var warn = document.createElement('div'); warn.className = 'empty-state';
-        warn.innerHTML = '<p>Front + back side-by-side does not fit on this sheet.<br>Reduce margin/gap, rotate the card, or pick a bigger sheet.</p>';
-        targetEl.appendChild(warn);
+    if (state.mode === 'passport'){
+      var hasImage = !!state.photo.src;
+      if (!hasImage){
+        if (includeEmptyState){ var es = document.createElement('div'); es.className='empty-state'; es.innerHTML='<p>Upload a photo to start</p>'; targetEl.appendChild(es); }
+        return { ok:false, max:0 };
       }
+      var cols = Math.max(0, Math.floor((availW + state.gap) / (size.cardW + state.gap)));
+      var rows = Math.max(0, Math.floor((availH + state.gap) / (size.cardH + state.gap)));
+      var max = cols * rows;
+      if (!state.passport.qty || state.passport.qty > max) state.passport.qty = max;
+      var grid = document.createElement('div');
+      grid.style.display = 'grid';
+      grid.style.gridTemplateColumns = 'repeat(' + cols + ', ' + mm(size.cardW) + ')';
+      grid.style.gap = mm(state.gap);
+      var n = Math.max(0, Math.min(state.passport.qty, max));
+      for (var i = 0; i < n; i++){ grid.appendChild(createCardCell('photo')); }
+      targetEl.appendChild(grid);
+      return { ok:true, max:max, cols:cols, rows:rows };
+    }
+
+    // pair mode: fixed 2 columns (front | back), rows stack top-down, anchored top-left
+    var hasAny = !!state.front.src || !!state.back.src;
+    if (!hasAny){
+      if (includeEmptyState){ var es2=document.createElement('div'); es2.className='empty-state'; es2.innerHTML='<p>Upload front (and back) image or PDF to start</p>'; targetEl.appendChild(es2); }
       return { ok:false, max:0 };
     }
-    if (!state.qty || state.qty > maxRows) state.qty = Math.min(state.qty || 1, maxRows) || maxRows;
-
+    var rowW = size.cardW * 2 + state.gap;
+    var maxRows = Math.max(0, Math.floor((availH + state.gap) / (size.cardH + state.gap)));
+    if (rowW > availW + 0.001 || maxRows <= 0){
+      if (includeEmptyState){ var warn=document.createElement('div'); warn.className='empty-state'; warn.innerHTML='<p>Front + back side-by-side does not fit on this sheet.<br>Reduce margin/gap, rotate the card, or pick a bigger sheet.</p>'; targetEl.appendChild(warn); }
+      return { ok:false, max:0 };
+    }
+    if (!state.pair.qty || state.pair.qty > maxRows) state.pair.qty = Math.min(state.pair.qty || 1, maxRows) || maxRows;
     var col = document.createElement('div');
     col.style.display = 'flex'; col.style.flexDirection = 'column'; col.style.gap = mm(state.gap);
-    var n = Math.max(0, Math.min(state.qty, maxRows));
-    for (var r = 0; r < n; r++){
+    var nRows = Math.max(0, Math.min(state.pair.qty, maxRows));
+    for (var r = 0; r < nRows; r++){
       var row = document.createElement('div');
       row.style.display = 'flex'; row.style.gap = mm(state.gap);
       row.appendChild(createCardCell('front'));
@@ -373,17 +423,20 @@
     buildSheetContent($('printSheet'), false);
 
     var qtyInput = $('qty'), qtyHint = $('qtyMax');
-    if (result.ok){
-      qtyHint.textContent = 'Default prints 1 pair at the top: front left, back right. Up to ' + result.max + ' pair(s) fit on this sheet.';
+    if (state.mode === 'passport'){
+      qtyInput.value = state.passport.qty || 1;
+      qtyInput.max = result.max || 1;
+      qtyHint.textContent = result.ok ? ('Fills up to ' + result.max + ' photos (' + result.cols + ' × ' + result.rows + ') — type a smaller number above for an exact count, e.g. 5.') : 'Upload a photo to see how many fit.';
     } else {
-      qtyHint.textContent = (result.max === 0 && (!!state.front.src || !!state.back.src)) ? 'Front + back side-by-side does not fit — adjust margin/gap/sheet.' : 'Upload front (and back) image to see how many pairs fit.';
+      qtyInput.value = state.pair.qty || 1;
+      qtyInput.max = result.max || 1;
+      qtyHint.textContent = result.ok ? ('Default prints 1 pair at the top: front left, back right. Up to ' + result.max + ' pair(s) fit on this sheet.') : (result.max === 0 && (state.front.src || state.back.src) ? 'Front + back side-by-side does not fit — adjust margin/gap/sheet.' : 'Upload front (and back) image to see how many pairs fit.');
     }
-    qtyInput.max = result.max || 1;
-    qtyInput.value = state.qty || 1;
 
     $('sheetWrapper').querySelector('.ruler-top').style.width = mm(state.sheetW);
     $('sheetWrapper').querySelector('.ruler-left').style.height = mm(state.sheetH);
 
+    syncCropEditor();
     fitPreviewScale();
   }
 
@@ -398,39 +451,97 @@
     wrapper.style.transform = 'scale(' + scale + ')';
   }
 
-  // ---------- file / PDF handling ----------
-  function setDropzoneLoaded(side, filename){
-    $(side + 'Dropzone').classList.add('loaded');
-    $(side + 'Status').innerHTML = '✓ ' + escapeHtml(filename) + ' — tap to replace';
+  // ---------- crop editor ----------
+  function syncCropEditor(){
+    var size = curSize();
+    var frame = $('cropFrame');
+    frame.style.aspectRatio = size.cardW + ' / ' + size.cardH;
+    var s = activeSlot();
+    var img = $('cropImg'), ph = $('cropPlaceholder');
+    if (s.src){
+      img.src = s.src; img.classList.remove('hidden'); ph.classList.add('hidden');
+      img.style.objectFit = (s.fit === 'fill') ? 'fill' : s.fit;
+      img.style.objectPosition = s.offX + '% ' + s.offY + '%';
+      img.style.transform = 'scale(' + (s.zoom / 100) + ')';
+    } else {
+      img.classList.add('hidden'); ph.classList.remove('hidden');
+    }
+    $('fitMode').value = s.fit;
+    $('zoom').value = s.zoom; $('zoomVal').textContent = s.zoom + '%';
   }
 
-  function handleFile(file, side){
+  function nudge(dxUnits, dyUnits){
+    var s = activeSlot();
+    s.offX = clampPct(s.offX - dxUnits);
+    s.offY = clampPct(s.offY - dyUnits);
+    syncCropEditor(); render();
+  }
+
+  function wireCropEditor(){
+    var frame = $('cropFrame');
+    var dragging = false, lastX = 0, lastY = 0;
+    frame.addEventListener('pointerdown', function(e){
+      if (!activeSlot().src) return;
+      dragging = true; lastX = e.clientX; lastY = e.clientY;
+      frame.classList.add('dragging');
+      try { frame.setPointerCapture(e.pointerId); } catch(err){}
+    });
+    frame.addEventListener('pointermove', function(e){
+      if (!dragging) return;
+      var dx = e.clientX - lastX, dy = e.clientY - lastY;
+      lastX = e.clientX; lastY = e.clientY;
+      var rect = frame.getBoundingClientRect();
+      var s = activeSlot();
+      var sensX = 100 / (rect.width * (s.zoom / 100));
+      var sensY = 100 / (rect.height * (s.zoom / 100));
+      nudge(dx * sensX, dy * sensY);
+    });
+    ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+      frame.addEventListener(ev, function(){ dragging = false; frame.classList.remove('dragging'); });
+    });
+    document.querySelectorAll('.dpad button[data-dir]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var dir = btn.dataset.dir, step = 4;
+        if (dir === 'left') nudge(-step, 0);
+        else if (dir === 'right') nudge(step, 0);
+        else if (dir === 'up') nudge(0, -step);
+        else if (dir === 'down') nudge(0, step);
+        else if (dir === 'reset'){ var s = activeSlot(); s.offX = 50; s.offY = 50; s.zoom = 100; syncCropEditor(); render(); }
+      });
+    });
+  }
+
+  // ---------- file / PDF handling ----------
+  function setDropzoneLoaded(slotKey, filename){
+    var dzId = slotKey + 'Dropzone', stId = slotKey + 'Status';
+    $(dzId).classList.add('loaded');
+    $(stId).innerHTML = '✓ ' + escapeHtml(filename) + ' — tap to replace';
+  }
+
+  function handleFile(file, slotKey){
     if (!file) return;
     if (file.type === 'application/pdf'){
-      loadPDF(file, side);
+      loadPDF(file, slotKey);
     } else {
       $('pdfPager').classList.add('hidden');
       var reader = new FileReader();
-      reader.onload = function(){ state[side].src = reader.result; setDropzoneLoaded(side, file.name); render(); };
+      reader.onload = function(){ state[slotKey].src = reader.result; setDropzoneLoaded(slotKey, file.name); render(); };
       reader.readAsDataURL(file);
     }
   }
 
-  function loadPDF(file, side){
-    if (typeof pdfjsLib === 'undefined'){
-      alert('PDF support needs an internet connection the first time. Please check your connection, or use a JPG/PNG instead.');
-      return;
-    }
+  function loadPDF(file, slotKey){
+    if (typeof pdfjsLib === 'undefined'){ alert('PDF support needs an internet connection the first time. Please check your connection, or use a JPG/PNG instead.'); return; }
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     var reader = new FileReader();
     reader.onload = function(){
       pdfjsLib.getDocument({ data: new Uint8Array(reader.result) }).promise.then(function(pdf){
-        state.pdf = pdf; state.pdfSide = side; state.pdfPageCount = pdf.numPages; state.pdfPage = 1;
-        if (side === 'front' && pdf.numPages >= 2){
+        state.pdf = pdf; state.pdfSlot = slotKey; state.pdfPageCount = pdf.numPages; state.pdfPage = 1;
+        if (state.mode === 'pair' && slotKey === 'front' && pdf.numPages >= 2){
           $('pdfPager').classList.add('hidden');
           Promise.all([
-            renderPDFPageToSide(pdf, 1, 'front', false),
-            renderPDFPageToSide(pdf, 2, 'back', false)
+            renderPDFPageToSlot(pdf, 1, 'front', false),
+            renderPDFPageToSlot(pdf, 2, 'back', false)
           ]).then(render);
         } else {
           $('pdfPager').classList.toggle('hidden', state.pdfPageCount <= 1);
@@ -441,34 +552,31 @@
     reader.readAsArrayBuffer(file);
   }
 
-  function renderPDFPage(){ return renderPDFPageToSide(state.pdf, state.pdfPage, state.pdfSide, true); }
+  function renderPDFPage(){ return renderPDFPageToSlot(state.pdf, state.pdfPage, state.pdfSlot, true); }
 
-  function renderPDFPageToSide(pdf, pageNumber, side, shouldRender){
+  function renderPDFPageToSlot(pdf, pageNumber, slotKey, shouldRender){
     return pdf.getPage(pageNumber).then(function(page){
-      var viewport = page.getViewport({ scale: 4 });
+      var viewport = page.getViewport({ scale: 5 });
       var canvas = document.createElement('canvas');
       canvas.width = viewport.width; canvas.height = viewport.height;
       var ctx = canvas.getContext('2d');
       return page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function(){
-        state[side].src = canvas.toDataURL('image/png');
-        setDropzoneLoaded(side, side + ' (from PDF, page ' + pageNumber + ')');
-        $('pdfPageLabel').textContent = side + ' page ' + pageNumber + '/' + state.pdfPageCount;
+        state[slotKey].src = canvas.toDataURL('image/png');
+        setDropzoneLoaded(slotKey, slotKey + ' (from PDF, page ' + pageNumber + ')');
+        $('pdfPageLabel').textContent = 'page ' + pageNumber + '/' + state.pdfPageCount;
         if (shouldRender) render();
       });
     });
   }
 
-  function setupDropzone(side){
-    var dropzone = $(side + 'Dropzone'), input = $(side + 'FileInput'), browse = $(side + 'BrowseBtn');
+  function setupDropzone(slotKey){
+    var dz = $(slotKey + 'Dropzone'), input = $(slotKey + 'FileInput'), browse = $(slotKey + 'BrowseBtn');
     browse.addEventListener('click', function(e){ e.stopPropagation(); input.click(); });
-    dropzone.addEventListener('click', function(){ input.click(); });
-    input.addEventListener('change', function(e){ handleFile(e.target.files[0], side); });
-    ['dragover','dragenter'].forEach(function(ev){ dropzone.addEventListener(ev, function(e){ e.preventDefault(); dropzone.classList.add('drag'); }); });
-    ['dragleave','drop'].forEach(function(ev){ dropzone.addEventListener(ev, function(e){ e.preventDefault(); dropzone.classList.remove('drag'); }); });
-    dropzone.addEventListener('drop', function(e){
-      e.preventDefault();
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0], side);
-    });
+    dz.addEventListener('click', function(){ input.click(); });
+    input.addEventListener('change', function(e){ handleFile(e.target.files[0], slotKey); });
+    ['dragover','dragenter'].forEach(function(ev){ dz.addEventListener(ev, function(e){ e.preventDefault(); dz.classList.add('drag'); }); });
+    ['dragleave','drop'].forEach(function(ev){ dz.addEventListener(ev, function(e){ e.preventDefault(); dz.classList.remove('drag'); }); });
+    dz.addEventListener('drop', function(e){ e.preventDefault(); if (e.dataTransfer.files && e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0], slotKey); });
   }
 
   // ---------- calibration ----------
@@ -484,99 +592,114 @@
     setTimeout(function(){ render(); $('calApplyRow').style.display = 'flex'; }, 250);
   }
 
-  function refreshFitControlsUI(){
-    var s = activeSlot();
-    $('fitMode').value = s.fit; $('zoom').value = s.zoom; $('zoomVal').textContent = s.zoom + '%';
-    $('offX').value = s.offX; $('offY').value = s.offY;
+  // ---------- mode / preset UI ----------
+  function populateSizePresets(){
+    var sel = $('sizePreset');
+    sel.innerHTML = '';
+    SIZE_PRESETS[state.mode].forEach(function(p){
+      var opt = document.createElement('option'); opt.value = p.value; opt.textContent = p.label;
+      sel.appendChild(opt);
+    });
+    var size = curSize();
+    var match = SIZE_PRESETS[state.mode].find(function(p){ return Math.abs(p.w - size.cardW) < 0.05 && Math.abs(p.h - size.cardH) < 0.05; });
+    sel.value = match ? match.value : 'custom';
+    $('sizeW').value = size.cardW; $('sizeH').value = size.cardH;
   }
 
-  var DEFAULTS = { cardW:85.6, cardH:54, sheetW:210, sheetH:297, margin:5, gap:3, cutLines:true, qty:1, calibration:100 };
+  function applyModeUI(){
+    var pair = state.mode === 'pair';
+    document.querySelectorAll('.mode-tab').forEach(function(b){ b.classList.toggle('active', b.dataset.mode === state.mode); });
+    $('pairDropGrid').classList.toggle('hidden', !pair);
+    $('photoDropWrap').classList.toggle('hidden', pair);
+    $('slotTabs').classList.toggle('hidden', !pair);
+    $('imagesPanelTitle').textContent = pair ? '2 · Front & Back' : '2 · Photo';
+    $('sizeSectionTitle').textContent = pair ? '3 · Card size' : '3 · Photo size';
+    $('qtyLabel').firstChild.textContent = pair ? 'Front+back pairs on this sheet' : 'Copies on this sheet';
+    $('imagesHint').textContent = pair ? 'Tip: upload a 2-page PDF into Front — page 1 becomes front, page 2 becomes back automatically.' : 'Tip: if the file is a full page with extra content, zoom in and drag in the crop box below until only the photo shows.';
+    $('brandTag').textContent = pair ? 'Front left, back right — one print-ready sheet' : 'One photo, as many copies as you need';
+    state.activeSlot = pair ? 'front' : 'photo';
+    document.querySelectorAll('.slot-tab').forEach(function(b){ b.classList.toggle('active', b.dataset.slot === 'front'); });
+    populateSizePresets();
+  }
 
   function init(){
     $('pageSizeStyle').textContent = '@page { size: ' + state.sheetW + 'mm ' + state.sheetH + 'mm; margin: 0; }';
 
-    setupDropzone('front');
-    setupDropzone('back');
+    setupDropzone('front'); setupDropzone('back'); setupDropzone('photo');
+    wireCropEditor();
 
     $('pdfPrev').addEventListener('click', function(){ if (state.pdfPage > 1){ state.pdfPage--; renderPDFPage(); } });
     $('pdfNext').addEventListener('click', function(){ if (state.pdfPage < state.pdfPageCount){ state.pdfPage++; renderPDFPage(); } });
 
+    document.querySelectorAll('.mode-tab').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        state.mode = btn.dataset.mode;
+        applyModeUI(); render();
+      });
+    });
     document.querySelectorAll('.slot-tab').forEach(function(btn){
       btn.addEventListener('click', function(){
         document.querySelectorAll('.slot-tab').forEach(function(b){ b.classList.remove('active'); });
         btn.classList.add('active');
         state.activeSlot = btn.dataset.slot;
-        refreshFitControlsUI();
+        syncCropEditor();
       });
     });
 
-    $('cardPreset').addEventListener('change', function(e){
-      var v = e.target.value;
-      if (v === 'cr80'){ state.cardW = 85.6; state.cardH = 54; }
-      else if (v === 'a7'){ state.cardW = 74; state.cardH = 105; }
-      if (v !== 'custom'){ $('cardW').value = state.cardW; $('cardH').value = state.cardH; }
+    $('sizePreset').addEventListener('change', function(e){
+      var p = SIZE_PRESETS[state.mode].find(function(x){ return x.value === e.target.value; });
+      if (p && p.value !== 'custom'){ curSize().cardW = p.w; curSize().cardH = p.h; $('sizeW').value = p.w; $('sizeH').value = p.h; }
       render();
     });
-    $('cardW').addEventListener('input', function(e){ state.cardW = parseFloat(e.target.value) || state.cardW; $('cardPreset').value = 'custom'; render(); });
-    $('cardH').addEventListener('input', function(e){ state.cardH = parseFloat(e.target.value) || state.cardH; $('cardPreset').value = 'custom'; render(); });
+    $('sizeW').addEventListener('input', function(e){ curSize().cardW = parseFloat(e.target.value) || curSize().cardW; $('sizePreset').value = 'custom'; render(); });
+    $('sizeH').addEventListener('input', function(e){ curSize().cardH = parseFloat(e.target.value) || curSize().cardH; $('sizePreset').value = 'custom'; render(); });
     $('rotateBtn').addEventListener('click', function(){
-      var t = state.cardW; state.cardW = state.cardH; state.cardH = t;
-      $('cardW').value = state.cardW; $('cardH').value = state.cardH;
-      $('cardPreset').value = 'custom'; render();
+      var size = curSize(); var t = size.cardW; size.cardW = size.cardH; size.cardH = t;
+      $('sizeW').value = size.cardW; $('sizeH').value = size.cardH; $('sizePreset').value = 'custom'; render();
     });
 
-    $('fitMode').addEventListener('change', function(e){ activeSlot().fit = e.target.value; render(); });
-    $('zoom').addEventListener('input', function(e){ activeSlot().zoom = parseFloat(e.target.value); $('zoomVal').textContent = activeSlot().zoom + '%'; render(); });
-    $('offX').addEventListener('input', function(e){ activeSlot().offX = parseFloat(e.target.value); render(); });
-    $('offY').addEventListener('input', function(e){ activeSlot().offY = parseFloat(e.target.value); render(); });
+    $('fitMode').addEventListener('change', function(e){ activeSlot().fit = e.target.value; syncCropEditor(); render(); });
+    $('zoom').addEventListener('input', function(e){ activeSlot().zoom = parseFloat(e.target.value); $('zoomVal').textContent = activeSlot().zoom + '%'; syncCropEditor(); render(); });
 
     $('sheetPreset').addEventListener('change', function(e){
-      if (e.target.value === 'a4'){ state.sheetW = 210; state.sheetH = 297; }
-      else { state.sheetW = 215.9; state.sheetH = 279.4; }
+      if (e.target.value === 'a4'){ state.sheetW = 210; state.sheetH = 297; } else { state.sheetW = 215.9; state.sheetH = 279.4; }
       $('pageSizeStyle').textContent = '@page { size: ' + state.sheetW + 'mm ' + state.sheetH + 'mm; margin: 0; }';
       render();
     });
     $('margin').addEventListener('input', function(e){ state.margin = parseFloat(e.target.value) || 0; render(); });
     $('gap').addEventListener('input', function(e){ state.gap = parseFloat(e.target.value) || 0; render(); });
     $('cutLines').addEventListener('change', function(e){ state.cutLines = e.target.checked; render(); });
-    $('qty').addEventListener('input', function(e){ state.qty = parseInt(e.target.value, 10) || 0; render(); });
+    $('qty').addEventListener('input', function(e){
+      var v = parseInt(e.target.value, 10) || 0;
+      if (state.mode === 'passport') state.passport.qty = v; else state.pair.qty = v;
+      render();
+    });
 
     $('calBtn').addEventListener('click', printCalibration);
     $('calApplyBtn').addEventListener('click', function(){
       var measured = parseFloat($('calMeasured').value);
-      if (measured > 0){
-        state.calibration = 100 * (100 / measured);
-        $('calStatus').textContent = 'Correction: ' + state.calibration.toFixed(1) + '%';
-        render();
-      }
+      if (measured > 0){ state.calibration = 100 * (100 / measured); $('calStatus').textContent = 'Correction: ' + state.calibration.toFixed(1) + '%'; render(); }
     });
 
     $('printBtn').addEventListener('click', function(){ window.print(); });
 
     $('resetBtn').addEventListener('click', function(){
       if (!confirm('Reset sizes, margins and calibration to defaults? (Images stay loaded.)')) return;
-      var front = state.front, back = state.back;
-      state.cardW = DEFAULTS.cardW; state.cardH = DEFAULTS.cardH;
-      state.sheetW = DEFAULTS.sheetW; state.sheetH = DEFAULTS.sheetH;
-      state.margin = DEFAULTS.margin; state.gap = DEFAULTS.gap;
-      state.cutLines = DEFAULTS.cutLines; state.qty = DEFAULTS.qty; state.calibration = DEFAULTS.calibration;
-      state.front = front; state.back = back; state.activeSlot = 'front';
-      front.fit='cover'; front.zoom=100; front.offX=50; front.offY=50;
-      back.fit='cover'; back.zoom=100; back.offX=50; back.offY=50;
+      var front=state.front, back=state.back, photo=state.photo, mode=state.mode;
+      state.pair = { cardW:85.6, cardH:54, qty:1 };
+      state.passport = { cardW:35, cardH:45, qty:null };
+      state.sheetW=210; state.sheetH=297; state.margin=5; state.gap=3; state.cutLines=true; state.calibration=100;
+      state.front=front; state.back=back; state.photo=photo; state.mode=mode;
+      [front,back,photo].forEach(function(s){ s.fit='cover'; s.zoom=100; s.offX=50; s.offY=50; });
 
-      $('cardPreset').value='cr80'; $('cardW').value=state.cardW; $('cardH').value=state.cardH;
-      $('sheetPreset').value='a4'; $('margin').value=state.margin; $('gap').value=state.gap;
-      $('cutLines').checked=true; $('qty').value=state.qty;
-      $('calStatus').textContent='Correction: 100% (not calibrated yet)';
-      $('calApplyRow').style.display='none';
-      document.querySelectorAll('.slot-tab').forEach(function(b){ b.classList.toggle('active', b.dataset.slot==='front'); });
-
-      $('pageSizeStyle').textContent = '@page { size: ' + state.sheetW + 'mm ' + state.sheetH + 'mm; margin: 0; }';
-      refreshFitControlsUI(); render();
+      $('sheetPreset').value='a4'; $('margin').value=5; $('gap').value=3; $('cutLines').checked=true;
+      $('calStatus').textContent='Correction: 100% (not calibrated yet)'; $('calApplyRow').style.display='none';
+      applyModeUI(); render();
     });
 
     window.addEventListener('resize', fitPreviewScale);
 
+    applyModeUI();
     render();
   }
 
